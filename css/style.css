@@ -1,0 +1,225 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#faf5ff;--bg2:#f3e8ff;--card:#fff;--text:#1e1b2e;--text2:#6b5b7b;
+  --accent:#a855f7;--accent2:#ec4899;--accent-soft:#e9d5ff;
+  --break-bg:#fdf2f8;--break-accent:#ec4899;
+  --shadow:0 4px 24px rgba(120,60,180,.1);
+  --radius:1.2rem;
+  --transition:.3s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#1a1025;--bg2:#2d1f3d;--card:#2a1f3a;--text:#f0e6ff;--text2:#b8a0d0;
+  --accent:#c084fc;--accent2:#f472b6;--accent-soft:#3b2660;
+  --break-bg:#2a1530;--break-accent:#f472b6;
+  --shadow:0 4px 24px rgba(0,0,0,.4);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;
+  transition:background var(--transition),color var(--transition);
+  overflow-x:hidden;
+}
+body.break-mode{background:var(--break-bg)}
+
+/* Particles */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0}
+#particles canvas{width:100%;height:100%}
+
+/* Layout */
+.app{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:1.5rem 1rem 3rem}
+header{text-align:center;margin-bottom:1.5rem}
+.greeting{font-size:.95rem;color:var(--text2);margin-bottom:.25rem;min-height:1.4em}
+h1{font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.streak{display:inline-flex;align-items:center;gap:.4rem;margin-top:.5rem;padding:.35rem .9rem;background:var(--accent-soft);border-radius:2rem;font-size:.82rem;font-weight:600;color:var(--accent)}
+
+/* Nav */
+.nav{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.nav button{background:var(--card);border:2px solid transparent;border-radius:.8rem;padding:.45rem 1rem;font-size:.8rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all var(--transition)}
+.nav button:hover{border-color:var(--accent-soft);color:var(--accent)}
+.nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Panels */
+.panel{display:none;animation:fadeIn .4s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* Timer Card */
+.timer-card{background:var(--card);border-radius:var(--radius);padding:2rem 1.5rem;box-shadow:var(--shadow);text-align:center;transition:all var(--transition)}
+.session-tabs{display:flex;justify-content:center;gap:.4rem;margin-bottom:1.5rem}
+.session-tabs button{background:var(--accent-soft);border:none;border-radius:.6rem;padding:.4rem .9rem;font-size:.78rem;font-weight:600;color:var(--accent);cursor:pointer;transition:all var(--transition)}
+.session-tabs button:hover{opacity:.8}
+.session-tabs button.active{background:var(--accent);color:#fff}
+
+.timer-ring{position:relative;width:220px;height:220px;margin:0 auto 1.5rem}
+.timer-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer-ring .track{fill:none;stroke:var(--accent-soft);stroke-width:8}
+.timer-ring .progress{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .5s ease,stroke var(--transition)}
+body.break-mode .timer-ring .progress{stroke:var(--break-accent)}
+.timer-display{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer-display .time{font-size:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.05em}
+.timer-display .label{font-size:.82rem;color:var(--text2);margin-top:.2rem}
+
+.controls{display:flex;justify-content:center;gap:.8rem;margin-bottom:1.2rem}
+.btn{border:none;border-radius:.8rem;padding:.7rem 1.8rem;font-size:.9rem;font-weight:600;cursor:pointer;transition:all var(--transition);display:inline-flex;align-items:center;gap:.4rem}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px rgba(168,85,247,.3)}
+.btn-primary:hover{box-shadow:0 6px 20px rgba(168,85,247,.45);transform:translateY(-1px)}
+.btn-secondary{background:var(--accent-soft);color:var(--accent)}
+.btn-secondary:hover{background:var(--accent);color:#fff}
+
+.session-dots{display:flex;justify-content:center;gap:.4rem;margin-bottom:1rem}
+.session-dots .dot{width:12px;height:12px;border-radius:50%;background:var(--accent-soft);transition:all var(--transition)}
+.session-dots .dot.filled{background:var(--accent);box-shadow:0 0 8px rgba(168,85,247,.4)}
+
+.quote{font-size:.88rem;color:var(--text2);font-style:italic;min-height:2.5em;line-height:1.5;transition:opacity .3s}
+
+/* Current Task */
+.current-task{margin-top:1rem;padding:.6rem .8rem;background:var(--accent-soft);border-radius:.7rem;font-size:.82rem;color:var(--accent);display:none;align-items:center;gap:.4rem}
+.current-task.show{display:flex}
+.current-task span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Tasks */
+.card{background:var(--card);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);margin-bottom:1rem;transition:all var(--transition)}
+.card h2{font-size:1.05rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+.task-input{display:flex;gap:.5rem}
+.task-input input{flex:1;padding:.6rem .8rem;border:2px solid var(--accent-soft);border-radius:.7rem;font-size:.85rem;background:var(--bg);color:var(--text);outline:none;transition:border var(--transition)}
+.task-input input:focus{border-color:var(--accent)}
+.task-input button{flex-shrink:0}
+.task-list{list-style:none;margin-top:.6rem}
+.task-list li{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--accent-soft);font-size:.85rem;transition:all var(--transition)}
+.task-list li:last-child{border:none}
+.task-list li.done{opacity:.5;text-decoration:line-through}
+.task-list li .check{width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:.7rem;color:transparent}
+.task-list li .check:hover{background:var(--accent-soft)}
+.task-list li.done .check{background:var(--accent);color:#fff;border-color:var(--accent)}
+.task-list li .text{flex:1}
+.task-list li .del{background:none;border:none;color:var(--text2);cursor:pointer;font-size:1rem;padding:0 .2rem;opacity:0;transition:opacity .2s}
+.task-list li:hover .del{opacity:1}
+
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.stat-box{background:var(--accent-soft);border-radius:.8rem;padding:.8rem;text-align:center}
+.stat-box .num{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat-box .lbl{font-size:.75rem;color:var(--text2);margin-top:.2rem}
+
+/* Settings */
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--accent-soft)}
+.setting-row:last-child{border:none}
+.setting-row label{font-size:.85rem;color:var(--text2)}
+.setting-row input[type=number]{width:60px;padding:.3rem .5rem;border:2px solid var(--accent-soft);border-radius:.5rem;font-size:.85rem;text-align:center;background:var(--bg);color:var(--text);outline:none}
+.setting-row input[type=number]:focus{border-color:var(--accent)}
+.toggle{width:44px;height:24px;background:var(--accent-soft);border-radius:12px;cursor:pointer;position:relative;border:none;transition:background var(--transition)}
+.toggle.on{background:var(--accent)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform var(--transition)}
+.toggle.on::after{transform:translateX(20px)}
+
+
+/* Celebration overlay */
+.celebration{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);backdrop-filter:blur(4px)}
+.celebration.show{display:flex}
+.celebration-card{background:var(--card);border-radius:var(--radius);padding:2.5rem 2rem;text-align:center;max-width:360px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.celebration-card h2{font-size:1.5rem;margin-bottom:.5rem}
+.celebration-card p{color:var(--text2);margin-bottom:1rem;font-size:.9rem}
+.celebration-card .emoji{font-size:3rem;margin-bottom:.5rem}
+
+/* Keyboard hint */
+.kb-hint{text-align:center;font-size:.72rem;color:var(--text2);margin-top:.5rem;opacity:.6}
+
+/* Responsive */
+@media(max-width:480px){
+  .app{padding:1rem .8rem 2rem}
+  .timer-ring{width:180px;height:180px}
+  .timer-display .time{font-size:2.6rem}
+  h1{font-size:1.3rem}
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
+
+/* Ambient sounds btn */
+.ambient-btn{position:fixed;bottom:2rem;right:2rem;z-index:10;background:var(--card);border:none;width:40px;height:40px;border-radius:50%;font-size:1.1rem;cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.ambient-btn:hover{transform:scale(1.1)}
+.ambient-btn.playing{background:var(--accent);color:#fff}
+
+/* ─── A. Button Ripple Effect ─── */
+.btn,.nav button,.session-tabs button,.ambient-btn{position:relative;overflow:hidden}
+.btn::before,.nav button::before,.session-tabs button::before,.ambient-btn::before{
+  content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--ripple-x,50%) var(--ripple-y,50%),rgba(255,255,255,.4) 0%,transparent 70%);
+  transform:scale(0);border-radius:inherit;opacity:0;transition:none;pointer-events:none;z-index:1;
+}
+.btn:active::before,.nav button:active::before,.session-tabs button:active::before,.ambient-btn:active::before{
+  transform:scale(2.5);opacity:1;transition:transform .45s ease-out,opacity .4s ease-out;
+}
+.ambient-btn{overflow:visible;position:fixed}
+
+/* ─── B. Timer Ring Breathing Pulse ─── */
+@keyframes breathe{
+  0%,100%{filter:drop-shadow(0 0 4px var(--accent));stroke-width:8}
+  50%{filter:drop-shadow(0 0 14px var(--accent));stroke-width:10}
+}
+.progress.breathing{animation:breathe 2.5s ease-in-out infinite}
+
+/* ─── C. Task Completion Confetti ─── */
+@keyframes checkPop{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+.task-list li.just-done .check{animation:checkPop .35s ease}
+.mini-confetti{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:200;opacity:1;transition:all .55s cubic-bezier(.25,.46,.45,.94)}
+.mini-confetti.fly{opacity:0}
+
+/* ─── D. (Nav indicator removed) ─── */
+
+/* ─── E. Timer Digit Roll Animation ─── */
+@keyframes digitRoll{from{transform:translateY(-30%);opacity:0}to{transform:translateY(0);opacity:1}}
+.digit{display:inline-block}
+.digit.roll{animation:digitRoll .3s ease}
+
+/* ─── F. Quote Fade-Swap ─── */
+.quote{transition:opacity .25s ease,transform .25s ease}
+.quote.fading{opacity:0;transform:translateY(5px)}
+
+/* ─── G. Greeting Typewriter ─── */
+.greeting-cursor::after{content:'|';animation:cursorBlink .6s step-end infinite}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ─── H. Session Complete Emoji Rain ─── */
+@keyframes emojiRain{0%{transform:translateY(-30px) rotate(0deg);opacity:1}80%{opacity:1}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}
+.emoji-rain{position:fixed;top:-40px;font-size:1.6rem;z-index:150;pointer-events:none;animation:emojiRain 2.2s ease-in forwards}
+
+/* ─── I. Card Hover Lift ─── */
+.timer-card:hover,.card:hover{transform:translateY(-2px);box-shadow:var(--shadow),0 8px 30px rgba(120,60,180,.12)}
+
+/* ─── J. Session Dot Pop ─── */
+@keyframes dotFill{0%{transform:scale(.5)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+.session-dots .dot.filled{animation:dotFill .4s ease}
+
+/* ─── K. Task Slide-In ─── */
+@keyframes taskSlideIn{from{transform:translateX(-15px);opacity:0}to{transform:translateX(0);opacity:1}}
+.task-list li{animation:taskSlideIn .3s ease}
+
+/* ─── Valentine Overlay ─── */
+.valentine-overlay{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);opacity:0;transition:opacity .5s ease}
+.valentine-overlay.show{display:flex;opacity:1}
+.valentine-overlay.fade-out{opacity:0}
+
+.valentine-hearts{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+@keyframes floatHeart{
+  0%{transform:translateY(100vh) scale(0) rotate(0deg);opacity:0}
+  10%{opacity:.8}
+  90%{opacity:.6}
+  100%{transform:translateY(-10vh) scale(1) rotate(25deg);opacity:0}
+}
+.floating-heart{position:absolute;font-size:1.8rem;animation:floatHeart 4s ease-in-out forwards;pointer-events:none}
+
+.valentine-card{background:var(--card);border-radius:var(--radius);padding:2.5rem 2rem;text-align:center;max-width:380px;width:90%;position:relative;z-index:1;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275);transition:transform .3s ease}
+.valentine-card h2{font-size:1.5rem;margin-bottom:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.valentine-card h3{font-size:1.15rem;margin:.8rem 0 1.2rem;color:var(--text)}
+.valentine-card p{color:var(--text2);font-size:.9rem;margin-bottom:.5rem}
+.valentine-emoji{font-size:3rem;margin-bottom:.5rem}
+.valentine-buttons{display:flex;justify-content:center;gap:1rem;margin-top:1rem;position:relative;min-height:60px}
+.valentine-yes{transition:all .3s ease;z-index:2}
+.valentine-no{transition:all .2s ease;position:absolute;z-index:1}
+.valentine-sub{font-size:.82rem;color:var(--text2);margin-top:.3rem;font-style:italic}
+.valentine-phase{transition:opacity .3s ease}
+.valentine-hidden{display:none}
+.valentine-close{margin-top:1.2rem}
+
+@keyframes heartBurst{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx,50px),var(--ty,-50px)) scale(0);opacity:0}}
+.heart-confetti{position:fixed;font-size:1.4rem;z-index:1001;pointer-events:none;animation:heartBurst .8s ease-out forwards}
