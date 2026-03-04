@@ -194,32 +194,3 @@ body.break-mode .timer-ring .progress{stroke:var(--break-accent)}
 @keyframes taskSlideIn{from{transform:translateX(-15px);opacity:0}to{transform:translateX(0);opacity:1}}
 .task-list li{animation:taskSlideIn .3s ease}
 
-/* ─── Valentine Overlay ─── */
-.valentine-overlay{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);opacity:0;transition:opacity .5s ease}
-.valentine-overlay.show{display:flex;opacity:1}
-.valentine-overlay.fade-out{opacity:0}
-
-.valentine-hearts{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-@keyframes floatHeart{
-  0%{transform:translateY(100vh) scale(0) rotate(0deg);opacity:0}
-  10%{opacity:.8}
-  90%{opacity:.6}
-  100%{transform:translateY(-10vh) scale(1) rotate(25deg);opacity:0}
-}
-.floating-heart{position:absolute;font-size:1.8rem;animation:floatHeart 4s ease-in-out forwards;pointer-events:none}
-
-.valentine-card{background:var(--card);border-radius:var(--radius);padding:2.5rem 2rem;text-align:center;max-width:380px;width:90%;position:relative;z-index:1;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275);transition:transform .3s ease}
-.valentine-card h2{font-size:1.5rem;margin-bottom:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.valentine-card h3{font-size:1.15rem;margin:.8rem 0 1.2rem;color:var(--text)}
-.valentine-card p{color:var(--text2);font-size:.9rem;margin-bottom:.5rem}
-.valentine-emoji{font-size:3rem;margin-bottom:.5rem}
-.valentine-buttons{display:flex;justify-content:center;gap:1rem;margin-top:1rem;position:relative;min-height:60px}
-.valentine-yes{transition:all .3s ease;z-index:2}
-.valentine-no{transition:all .2s ease;position:absolute;z-index:1}
-.valentine-sub{font-size:.82rem;color:var(--text2);margin-top:.3rem;font-style:italic}
-.valentine-phase{transition:opacity .3s ease}
-.valentine-hidden{display:none}
-.valentine-close{margin-top:1.2rem}
-
-@keyframes heartBurst{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx,50px),var(--ty,-50px)) scale(0);opacity:0}}
-.heart-confetti{position:fixed;font-size:1.4rem;z-index:1001;pointer-events:none;animation:heartBurst .8s ease-out forwards}

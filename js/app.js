@@ -497,109 +497,6 @@ function sessionCelebration() {
   }
 }
 
-// ─── Valentine ──────────────────────────────────────────────────────────
-
-function initValentine() {
-  if (localStorage.getItem('maya_valentine_seen')) return;
-
-  const overlay = document.getElementById('valentineOverlay');
-  const askPhase = document.getElementById('valentineAsk');
-  const celebratePhase = document.getElementById('valentineCelebrate');
-  const yesBtn = document.getElementById('valentineYes');
-  const noBtn = document.getElementById('valentineNo');
-  const closeBtn = document.getElementById('valentineClose');
-  const heartsContainer = document.getElementById('valentineHearts');
-
-  // Spawn floating hearts
-  function spawnFloatingHearts() {
-    const hearts = ['💜','💖','💕','💗','💝','🩷','💘'];
-    for (let i = 0; i < 12; i++) {
-      const h = document.createElement('div');
-      h.className = 'floating-heart';
-      h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-      h.style.left = (Math.random() * 90 + 5) + '%';
-      h.style.animationDelay = (Math.random() * 3) + 's';
-      h.style.animationDuration = (3 + Math.random() * 2) + 's';
-      heartsContainer.appendChild(h);
-    }
-  }
-
-  // Show overlay after 800ms
-  setTimeout(() => {
-    overlay.style.display = 'flex';
-    requestAnimationFrame(() => overlay.classList.add('show'));
-    spawnFloatingHearts();
-  }, 800);
-
-  // No button dodge
-  const dodgeTexts = ["Bro...", "Really?", "Bean is watching 🐶", "Try again lol", "Wrong answer!", "Think carefully...", "Nah fr?", "U sure?? 🥺"];
-  let dodgeCount = 0;
-
-  function dodgeNo(e) {
-    e.preventDefault();
-    const card = document.getElementById('valentineCard');
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const randX = (Math.random() - 0.5) * (vw * 0.6);
-    const randY = (Math.random() - 0.5) * (vh * 0.5);
-    card.style.transform = `translate(${randX}px, ${randY}px)`;
-    noBtn.textContent = dodgeTexts[dodgeCount % dodgeTexts.length];
-    dodgeCount++;
-    const scale = Math.min(1 + dodgeCount * 0.06, 1.4);
-    yesBtn.style.transform = `scale(${scale})`;
-  }
-
-  noBtn.addEventListener('mouseenter', dodgeNo);
-  noBtn.addEventListener('touchstart', dodgeNo, { passive: false });
-
-  // Yes clicked
-  yesBtn.addEventListener('click', () => {
-    askPhase.classList.add('valentine-hidden');
-    celebratePhase.classList.remove('valentine-hidden');
-    // Heart confetti burst
-    for (let i = 0; i < 25; i++) {
-      const h = document.createElement('div');
-      h.className = 'heart-confetti';
-      h.textContent = ['💜','💖','💕','🩷','💗'][Math.floor(Math.random() * 5)];
-      h.style.left = (40 + Math.random() * 20) + 'vw';
-      h.style.top = (30 + Math.random() * 20) + 'vh';
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 80 + Math.random() * 150;
-      h.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
-      h.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 900);
-    }
-    // Ascending chime
-    if (state.settings.sound) {
-      try {
-        const ctx = getAudioCtx();
-        [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = freq;
-          const t = ctx.currentTime + i * 0.12;
-          gain.gain.setValueAtTime(0.12, t);
-          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-          osc.connect(gain).connect(ctx.destination);
-          osc.start(t);
-          osc.stop(t + 0.6);
-        });
-      } catch(e) {}
-    }
-  });
-
-  // Close button
-  closeBtn.addEventListener('click', () => {
-    localStorage.setItem('maya_valentine_seen', '1');
-    overlay.classList.add('fade-out');
-    setTimeout(() => {
-      overlay.classList.remove('show', 'fade-out');
-      overlay.style.display = 'none';
-    }, 500);
-  });
-}
 
 // ─── Init ───────────────────────────────────────────────────────────────
 function init() {
@@ -614,7 +511,6 @@ function init() {
   renderTasks();
   updateStats();
   initParticles();
-  initValentine();
   setInterval(updateGreeting, 60000);
   setInterval(randomQuote, 45000);
 }
